@@ -1,8 +1,9 @@
 package templemore.sbt.cucumber
 
+import java.net.URL
+
+import sbt.Keys._
 import sbt._
-import Keys._
-import Project.Initialize
 import templemore.sbt.util._
 
 /**
@@ -68,21 +69,25 @@ object CucumberPlugin extends Plugin with Integration {
 
   protected def cucumberOptionsTask =
     (cucumberFeaturesLocation, cucumberStepsBasePackage, cucumberExtraOptions,
-     cucumberBefore, cucumberAfter, cucumberStrict, cucumberMonochrome) map ((fl, bp, o, bf, af, st, mo) => Options(fl, bp, o, bf, af, st, mo))
+      cucumberBefore, cucumberAfter, cucumberStrict, cucumberMonochrome) map ((fl, bp, o, bf, af, st, mo) => Options(fl, bp, o, bf, af, st, mo))
 
   protected def cucumberOutputTask =
     (cucumberPrettyReport, cucumberHtmlReport, cucumberJunitReport, cucumberJsonReport,
-     cucumberPrettyReportFile, cucumberHtmlReportDir, cucumberJunitReportFile, cucumberJsonReportFile) map {
+      cucumberPrettyReportFile, cucumberHtmlReportDir, cucumberJunitReportFile, cucumberJsonReportFile) map {
       (pR, hR, juR, jsR, pRF, hRD, juRF, jsRF) => {
         Output(pR, hR, juR, jsR, pRF, hRD, juRF, jsRF)
       }
     }
 
   private def defaultBefore() = {}
+
   private def defaultAfter() = {}
 
   val cucumberSettings: Seq[Setting[_]] = Seq(
-    resolvers += "Templemore Repository" at "http://templemore.co.uk/repo",
+    resolvers += "Templemore Repository" at "http://templemore.co.uk/repo"
+      + Resolver.url("sbt-cuke Github Repo",
+      new URL("https://github.com/karahanozturk/xsbt-cucumber-plugin/raw/mvn-repo/"))(Patterns("[organization]/[module]_[scalaVersion]_[sbtVersion]/[revision]/[artifact].[ext]"))
+    ,
     libraryDependencies += "templemore" %% "sbt-cucumber-integration" % projectVersion % "test",
 
     cucumber <<= cucumberTask(false),
@@ -109,10 +114,10 @@ object CucumberPlugin extends Plugin with Integration {
     cucumberJunitReport := false,
     cucumberJsonReport := false,
 
-    cucumberPrettyReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.txt" },
-    cucumberHtmlReportDir <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber-report" },
-    cucumberJsonReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.json" },
-    cucumberJunitReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.xml" },
+    cucumberPrettyReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.txt"},
+    cucumberHtmlReportDir <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber-report"},
+    cucumberJsonReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.json"},
+    cucumberJunitReportFile <<= (scalaVersion, target) { (sv, t) => t / "scala-%s".format(sv) / "cucumber.xml"},
 
     cucumberBefore := defaultBefore,
     cucumberAfter := defaultAfter
@@ -120,10 +125,10 @@ object CucumberPlugin extends Plugin with Integration {
 
   val cucumberSettingsWithTestPhaseIntegration = cucumberSettings ++ Seq(
     testFrameworks += new TestFramework("templemore.sbt.cucumber.CucumberFramework")
-  ) 
+  )
 
   val cucumberSettingsWithIntegrationTestPhaseIntegration = cucumberSettings ++ Seq(
     testFrameworks in IntegrationTest += new TestFramework("templemore.sbt.cucumber.CucumberFramework"),
     libraryDependencies += "templemore" %% "sbt-cucumber-integration" % projectVersion % "it"
-  ) 
+  )
 }
