@@ -9,3 +9,8 @@ project/target
 xsbt-cucumber-plugin.sublime-workspace
 deploy-repo
 
+# Eclipse
+.cache
+.classpath
+.project
+.settings
