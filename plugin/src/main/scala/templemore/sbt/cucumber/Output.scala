@@ -13,20 +13,20 @@ case class Output(prettyReport: Boolean, htmlReport: Boolean, junitReport: Boole
   def options: List[String] = {
     (if (prettyReport) {
        prettyReportFile.getParentFile.mkdirs()
-       "--format" :: "progress" :: "--format" :: "pretty:%s".format(prettyReportFile.getPath) :: Nil
+       "--plugin" :: "pretty:%s".format(prettyReportFile.getPath) :: Nil
      }
-     else "--format" :: "pretty" :: Nil) ++
+     else "--plugin" :: "pretty" :: Nil) ++
     (if ( htmlReport) {
        htmlReportDir.mkdirs()
-       "--format" :: "html:%s".format(htmlReportDir.getPath) :: Nil
+       "--plugin" :: "html:%s".format(htmlReportDir.getPath) :: Nil
      } else Nil) ++
     (if ( junitReport) {
        junitReportFile.getParentFile.mkdirs()
-       "--format" :: "junit:%s".format(junitReportFile.getPath) :: Nil
+       "--plugin" :: "junit:%s".format(junitReportFile.getPath) :: Nil
      } else Nil) ++
     (if ( jsonReport) {
        jsonReportFile.getParentFile.mkdirs()
-       "--format" :: "json:%s".format(jsonReportFile.getPath) :: Nil
+       "--plugin" :: "json:%s".format(jsonReportFile.getPath) :: Nil
      } else Nil)
   }
 }
