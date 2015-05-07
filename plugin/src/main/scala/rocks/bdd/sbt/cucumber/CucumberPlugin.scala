@@ -85,7 +85,7 @@ object CucumberPlugin extends Plugin with Integration {
 
   val cucumberSettings: Seq[Setting[_]] = Seq(
     resolvers += Resolver.url("sbt-cuke Github Repo",
-      new URL("https://github.com/pixie79/sbt-cucumber-plugin/raw/mvn-repo/"))(Patterns("[organization]/[module]_[scalaVersion]_[sbtVersion]/[revision]/[artifact].[ext]"))
+      new URL("https://github.com/pixie79/sbt-cucumber-plugin/raw/mvn-repo/"))(Patterns("[organization]/[module]/[revision]/[type]s/[artifact].[ext]"))
     ,
     libraryDependencies += "rocks.bdd" %% "sbt-cucumber-integration" % projectVersion % "test",
 
