@@ -6,8 +6,9 @@ project/target
 .idea
 .idea_modules
 .ensime_port
-xsbt-cucumber-plugin.sublime-workspace
+sbt-cucumber-plugin.sublime-workspace
 deploy-repo
+*/target
 
 # Eclipse
 .cache
