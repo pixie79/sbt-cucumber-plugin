@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="rocks.bdd" module="sbt-cucumber-integration_2.10" revision="0.9.1" status="release" publication="20150507143058">
+	<info organisation="rocks.bdd" module="sbt-cucumber-integration_2.10" revision="0.9.1" status="release" publication="20150507161102">
 		<description>
 		sbt-cucumber-integration
 		</description>
